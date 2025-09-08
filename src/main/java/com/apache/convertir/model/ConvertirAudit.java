@@ -9,9 +9,9 @@ import lombok.Data;
 public class ConvertirAudit {
 
 	private String id;
-	private String from;
-	private String to;
 	private BigDecimal amount;
 	private LocalDateTime timestamp;
-	
+	private String from;
+	private String to;
+
 }

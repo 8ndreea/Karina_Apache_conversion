@@ -16,5 +16,4 @@ public class ConversionResponse {
 	private String date;
 	private Map<String, BigDecimal> rates;
 
-	
 }

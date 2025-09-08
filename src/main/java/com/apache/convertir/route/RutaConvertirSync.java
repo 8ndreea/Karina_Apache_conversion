@@ -25,13 +25,16 @@ public class RutaConvertirSync extends RouteBuilder {
 		//ruta sincronica para conversión de moneda
         from("direct:convertirSync")
             .routeId("conversion-sync-route")
+            //convertBodyTo -> convertir los datos del DTO antes/después de consumir la API
             .convertBodyTo(ConversionRequest.class)
             .bean(ProcesadorConversion.class, "validate")
             .setHeader("from", simple("${body.from}"))
             .setHeader("to", simple("${body.to}"))
             .setHeader("amount", simple("${body.amount}"))
+            //toD -> para llamar a la API
             .toD("https://api.frankfurter.dev/v1/latest?amount=${header.amount}&from=${header.from}&to=${header.to}")
             .log("Respuesta de la API ${body}")
+            //unmarshal -> convertimos la respuesta de la API a un objeto Java con ayuda de JsonLibrary.Jackson
             .unmarshal().json(org.apache.camel.model.dataformat.JsonLibrary.Jackson, com.apache.convertir.dto.ConversionResponse.class)
             .log("Respuesta procesada ${body}");
     }
